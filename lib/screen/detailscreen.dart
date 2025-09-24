@@ -230,7 +230,9 @@ class _DetailscreenState extends State<Detailscreen> {
                 ),
               );
             default:
-              return SafeArea(child: Text("idle"));
+              return SafeArea(
+                child: Center(child: CircularProgressIndicator()),
+              );
           }
         },
       ),

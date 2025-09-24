@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fundamental_submission1/api/data/api_service.dart';
 import 'package:fundamental_submission1/static/status.dart';
@@ -13,20 +15,20 @@ class Listscreenprovider extends ChangeNotifier {
 
   Future fetchresto() async {
     _status = ListRestoranLoading();
-    notifyListeners();
-    final result = await api.getListRestoran();
     try {
+      final result = await api.getListRestoran();
       if (result.error) {
         _status = ListRestoranError(
           message: "terjadi kesalahan : ${result.message}",
         );
-        notifyListeners();
       } else {
         _status = ListRestoranSukses(data: result);
-        notifyListeners();
       }
+    } on SocketException {
+      _status = ListRestoranError(message: "Ttidak ada koneksi internet");
     } catch (e) {
-      _status = ListRestoranError(message: e.toString());
+      _status = ListRestoranError(message: "mohon maaf terjadi kesalahan");
+    } finally {
       notifyListeners();
     }
   }

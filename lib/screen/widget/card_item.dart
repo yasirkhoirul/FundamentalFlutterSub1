@@ -74,7 +74,7 @@ class CardItem extends StatelessWidget {
                                   child: Text(
                                     datalist.city,
                                     style: TextStyle(
-                                      fontWeight: FontWeight.w200,
+                                      fontWeight: FontWeight.w300,
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
