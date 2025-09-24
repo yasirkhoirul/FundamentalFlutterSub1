@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fundamental_submission1/provider/detailScreenProvider.dart';
+import 'package:fundamental_submission1/api/data/api_service.dart';
+import 'package:fundamental_submission1/provider/detail_screen_provider.dart';
 import 'package:fundamental_submission1/screen/widget/categories.dart';
 import 'package:fundamental_submission1/screen/widget/otheritem.dart';
 import 'package:fundamental_submission1/screen/widget/review.dart';
@@ -17,18 +18,16 @@ class Detailscreen extends StatefulWidget {
 class _DetailscreenState extends State<Detailscreen> {
   @override
   void initState() {
-    // TODO: implement initState
-    Future.microtask(
-      () => context.read<Detailscreenprovider>().fetchdataDetail(
-        widget.idRestoran,
-      ),
-    );
+    Future.microtask(() {
+      if (mounted) {
+        context.read<Detailscreenprovider>().fetchdataDetail(widget.idRestoran);
+      }
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body: Consumer<Detailscreenprovider>(
         builder: (context, value, child) {
@@ -39,7 +38,25 @@ class _DetailscreenState extends State<Detailscreen> {
               );
 
             case ListRestoranError(message: var message):
-              return SafeArea(child: Center(child: Text(message)));
+              return SafeArea(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(message),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<Detailscreenprovider>().fetchdataDetail(
+                            widget.idRestoran,
+                          );
+                        },
+                        child: const Text("Muat Ulang"),
+                      ),
+                    ],
+                  ),
+                ),
+              );
 
             case ListRestoranSuksesDetail(data: var data):
               return SafeArea(
@@ -54,9 +71,11 @@ class _DetailscreenState extends State<Detailscreen> {
                             bottomRight: Radius.circular(20),
                           ),
                           child: Hero(
-                            tag: "restoImage",
+                            tag: "restoImage${data.restoran.pictureId}",
                             child: Image.network(
-                              "https://restaurant-api.dicoding.dev/images/small/${data.restoran.pictureId}",
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(Icons.error),
+                              "${Constant.imageUrl}/${data.restoran.pictureId}",
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -91,10 +110,10 @@ class _DetailscreenState extends State<Detailscreen> {
                                   children: [
                                     Icon(Icons.location_on),
                                     Text(
-                                      data.restoran.city,
+                                      "${data.restoran.city}, ${data.restoran.address}",
                                       style: TextStyle(
                                         fontSize: 14,
-                                        fontWeight: FontWeight.w200,
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ),
                                   ],
@@ -203,7 +222,8 @@ class _DetailscreenState extends State<Detailscreen> {
                       ),
                     ),
                     SliverList.builder(
-                      itemBuilder: (context, index) => Reviews(data:data.restoran.review[index]),
+                      itemBuilder: (context, index) =>
+                          Reviews(data: data.restoran.review[index]),
                       itemCount: data.restoran.review.length,
                     ),
                   ],
@@ -224,7 +244,6 @@ class Itemmenu extends StatelessWidget {
   const Itemmenu({required this.builder, super.key, required this.panjang});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return ConstrainedBox(
       constraints: BoxConstraints(minHeight: 55, maxHeight: 120),
       child: ListView.builder(

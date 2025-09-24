@@ -16,12 +16,14 @@ class Restoranlist {
       error: json['error'],
       message: json['message'],
       count: json['count'],
-      restoran: (json['restaurants'] as List ).map((e) => RestoranlistDetail.fromJson(e),).toList(),
+      restoran: (json['restaurants'] as List)
+          .map((e) => RestoranlistDetail.fromJson(e))
+          .toList(),
     );
   }
 }
 
-class RestoranlistDetail{
+class RestoranlistDetail {
   final String id;
   final String name;
   final String description;
@@ -29,10 +31,24 @@ class RestoranlistDetail{
   final String city;
   final double rating;
 
-  RestoranlistDetail({required this.id, required this.name, required this.description, required this.pictureId, required this.city, required this.rating});
-  
-  factory RestoranlistDetail.fromJson(Map<String,dynamic> json){
-    return RestoranlistDetail(id: json['id'], name: json['name'], description: json['description'], pictureId: json['pictureId'], city: json['city'], rating: (json['rating'] as num ).toDouble());
+  RestoranlistDetail({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.pictureId,
+    required this.city,
+    required this.rating,
+  });
+
+  factory RestoranlistDetail.fromJson(Map<String, dynamic> json) {
+    return RestoranlistDetail(
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      pictureId: json['pictureId'],
+      city: json['city'],
+      rating: (json['rating'] as num).toDouble(),
+    );
   }
 }
 
@@ -92,12 +108,16 @@ class Restoran {
       name: json['name'],
       description: json['description'],
       pictureId: json['pictureId'],
-      rating: (json['rating'] as num ).toDouble(),
-      review: (json['customerReviews'] as List ).map((e) => Review.fromJson(e),).toList(),
+      rating: (json['rating'] as num).toDouble(),
+      review: (json['customerReviews'] as List)
+          .map((e) => Review.fromJson(e))
+          .toList(),
       city: json['city'],
       address: json['address'],
       menu: Menu.fromjason(json['menus']),
-      categories: (json['categories'] as List).map((e) => Categories.formJson(e),).toList(),
+      categories: (json['categories'] as List)
+          .map((e) => Categories.formJson(e))
+          .toList(),
     );
   }
 }

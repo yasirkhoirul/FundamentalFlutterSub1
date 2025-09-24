@@ -1,22 +1,22 @@
-import 'package:fundamental_submission1/api/model/resotoran.dart';
+import 'package:fundamental_submission1/api/model/restoran.dart';
 
-sealed class StatusResponseListRestoran{}
+sealed class StatusResponseListRestoran {}
 
-class ListRestoranIdle extends StatusResponseListRestoran{}
+class ListRestoranIdle extends StatusResponseListRestoran {}
 
-class ListRestoranLoading extends StatusResponseListRestoran{}
+class ListRestoranLoading extends StatusResponseListRestoran {}
 
-class ListRestoranError extends StatusResponseListRestoran{
-  ListRestoranError({required this.message });
+class ListRestoranError extends StatusResponseListRestoran {
+  ListRestoranError({required this.message});
   final String message;
 }
 
-class ListRestoranSukses extends StatusResponseListRestoran{
+class ListRestoranSukses extends StatusResponseListRestoran {
   final Restoranlist data;
   ListRestoranSukses({required this.data});
 }
 
-class ListRestoranSuksesDetail extends StatusResponseListRestoran{
+class ListRestoranSuksesDetail extends StatusResponseListRestoran {
   final RestorainDetil data;
   ListRestoranSuksesDetail({required this.data});
 }

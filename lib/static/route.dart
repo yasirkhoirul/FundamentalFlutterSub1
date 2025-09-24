@@ -1,4 +1,4 @@
- enum Routes{
+enum Routes {
   detail("/detail"),
   listclass("/");
 

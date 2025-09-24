@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:fundamental_submission1/api/model/resotoran.dart';
+import 'package:fundamental_submission1/api/data/api_service.dart';
+import 'package:fundamental_submission1/api/model/restoran.dart';
 import 'package:fundamental_submission1/static/route.dart';
 
 class CardItem extends StatelessWidget {
-
   final RestoranlistDetail datalist;
-  const CardItem({super.key,required this.datalist});
+  const CardItem({super.key, required this.datalist});
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, Routes.detail.name,arguments: datalist.id),
+      onTap: () => Navigator.pushNamed(
+        context,
+        Routes.detail.name,
+        arguments: datalist.id,
+      ),
       child: Container(
         margin: EdgeInsets.all(10),
         child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: 80, maxHeight: 120,minWidth: 500,maxWidth: double.infinity),
+          constraints: BoxConstraints(
+            minHeight: 80,
+            maxHeight: 120,
+            minWidth: 500,
+            maxWidth: double.infinity,
+          ),
           child: Card(
             child: Padding(
               padding: EdgeInsetsGeometry.all(15),
@@ -26,9 +34,11 @@ class CardItem extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadiusGeometry.circular(10),
                       child: Hero(
-                        tag: "restoImage",
+                        tag: "restoImage${datalist.pictureId}",
                         child: Image.network(
-                          "https://restaurant-api.dicoding.dev/images/small/${datalist.pictureId}",
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(Icons.error),
+                          "${Constant.imageUrl}/${datalist.pictureId}",
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -63,7 +73,9 @@ class CardItem extends StatelessWidget {
                                 Expanded(
                                   child: Text(
                                     datalist.city,
-                                    style: TextStyle(fontWeight: FontWeight.w200),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w200,
+                                    ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -72,7 +84,7 @@ class CardItem extends StatelessWidget {
                             ),
                           ],
                         ),
-      
+
                         SizedBox(height: 10),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,

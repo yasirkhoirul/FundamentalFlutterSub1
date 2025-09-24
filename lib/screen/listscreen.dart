@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fundamental_submission1/provider/listScreenProvider.dart';
-import 'package:fundamental_submission1/screen/widget/Carditem.dart';
+import 'package:fundamental_submission1/provider/list_screen_provider.dart';
+import 'package:fundamental_submission1/screen/widget/card_item.dart';
 import 'package:fundamental_submission1/static/status.dart';
 import 'package:provider/provider.dart';
 
@@ -14,28 +14,46 @@ class Listscreen extends StatefulWidget {
 class _ListscreenState extends State<Listscreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Future.microtask(() => context.read<Listscreenprovider>().fetchresto());
+    Future.microtask(() {
+      if (mounted) {
+        context.read<Listscreenprovider>().fetchresto();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    final Color colorIndicator = Theme.of(context).colorScheme.onPrimary;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: Consumer<Listscreenprovider>(
         builder: (context, vlaue, child) {
           switch (vlaue.status) {
-            
             case ListRestoranLoading():
-              // TODO: Handle this case.
-              return Center(child: const CircularProgressIndicator());
+              return Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(colorIndicator),
+                ),
+              );
             case ListRestoranError(message: var message):
-              return Center(child: Text("ada yang error $message"));
-      
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(message),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<Listscreenprovider>().fetchresto();
+                      },
+                      child: const Text("Muat Ulang"),
+                    ),
+                  ],
+                ),
+              );
+
             case ListRestoranSukses(data: var data):
-              // TODO: Handle this case.
               return CustomScrollView(
                 slivers: [
                   SliverAppBar(
@@ -68,13 +86,17 @@ class _ListscreenState extends State<Listscreen> {
                   ),
                   SliverList.builder(
                     itemCount: data.restoran.length,
-                    itemBuilder: (context, index) => CardItem(datalist: data.restoran[index],),
+                    itemBuilder: (context, index) =>
+                        CardItem(datalist: data.restoran[index]),
                   ),
                 ],
               );
             default:
-              // TODO: Handle this case.
-              return Center(child: const CircularProgressIndicator());
+              return Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(colorIndicator),
+                ),
+              );
           }
         },
       ),

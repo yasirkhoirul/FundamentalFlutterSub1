@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fundamental_submission1/api/data/api_service.dart';
-import 'package:fundamental_submission1/provider/detailScreenProvider.dart';
-import 'package:fundamental_submission1/provider/listScreenProvider.dart';
+import 'package:fundamental_submission1/provider/detail_screen_provider.dart';
+import 'package:fundamental_submission1/provider/list_screen_provider.dart';
 import 'package:fundamental_submission1/screen/detailscreen.dart';
 import 'package:fundamental_submission1/screen/listscreen.dart';
 import 'package:fundamental_submission1/static/route.dart';
@@ -32,7 +32,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
       theme: Themeapps.lightTheme,
       darkTheme: Themeapps.darkTheme,
